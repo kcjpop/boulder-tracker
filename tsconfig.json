@@ -12,6 +12,7 @@
     "module": "esnext",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "downlevelIteration": true,
     "jsx": "preserve",
     "moduleResolution": "node",
     "baseUrl": "",
