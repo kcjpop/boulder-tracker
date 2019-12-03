@@ -1,0 +1,24 @@
+{
+  "name": "boulder-tracker",
+  "version": "1.0.0",
+  "description": "A tool to track your bouldering sessions",
+  "main": "pages/index.tsx",
+  "author": "An Cao",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "evergreen-ui": "4.21.5",
+    "next": "9.1.4",
+    "react": "16.12.0",
+    "react-dom": "16.12.0"
+  },
+  "devDependencies": {
+    "@types/node": "12.12.14",
+    "@types/react": "16.9.14",
+    "typescript": "3.7.2"
+  }
+}
