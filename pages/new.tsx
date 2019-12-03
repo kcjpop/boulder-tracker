@@ -1,7 +1,45 @@
-import { useRouter } from 'next/router'
+import React from 'react'
+import Router from 'next/router'
+import { TextInputField, Button, Pane } from 'evergreen-ui'
+
+import Layout from '@/Layout'
+import { createSesh } from '@/storage'
 
 export default function NewSess() {
-  const router = useRouter()
+  const [gymName, setGymName] = React.useState('')
 
-  return <div>Hello</div>
+  const doChangeGymName = e => setGymName(e.target.value)
+
+  const doCreateSesh = e => {
+    e.preventDefault()
+    createSesh({ gymName })
+    Router.push('/')
+  }
+
+  return (
+    <Layout>
+      <Pane
+        is="form"
+        display="flex"
+        flexDirection="column"
+        onSubmit={doCreateSesh}>
+        <TextInputField
+          required
+          value={gymName}
+          label="Gym name"
+          marginBottom={16}
+          placeholder="E.g. KiipeilyAreena Kalasatama"
+          onChange={doChangeGymName}
+        />
+
+        <Button
+          type="submit"
+          height={48}
+          justifyContent="center"
+          appearance="primary">
+          Start training
+        </Button>
+      </Pane>
+    </Layout>
+  )
 }
