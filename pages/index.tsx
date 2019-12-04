@@ -2,7 +2,7 @@ import React from 'react'
 import Layout from '@/Layout'
 import CurrentSesh from '@/CurrentSesh'
 import EmptySesh from '@/EmptySesh'
-import { getCurrentSesh, inc } from '@/storage'
+import { getCurrentSesh, inc, dec } from '@/storage'
 
 function Index() {
   const [currentSesh, setCurrentSesh] = React.useState(getCurrentSesh())
@@ -13,10 +13,16 @@ function Index() {
     setCurrentSesh(getCurrentSesh())
   }
 
+  const onDec = grade => e => {
+    e.preventDefault()
+    dec(grade)
+    setCurrentSesh(getCurrentSesh())
+  }
+
   return (
     <Layout>
       {currentSesh != null ? (
-        <CurrentSesh sesh={currentSesh} onInc={onInc} />
+        <CurrentSesh sesh={currentSesh} onInc={onInc} onDec={onDec} />
       ) : (
         <EmptySesh />
       )}

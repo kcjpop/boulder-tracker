@@ -9,6 +9,7 @@ interface Sesh {
 interface CurrentSeshProps {
   sesh: Sesh
   onInc: Function
+  onDec: Function
 }
 
 import {
@@ -82,7 +83,7 @@ const FONT = {
   '9A': '9A',
 }
 
-export default function CurrentSesh({ sesh, onInc }: CurrentSeshProps) {
+export default function CurrentSesh({ sesh, onInc, onDec }: CurrentSeshProps) {
   const doEndSesh = e => {
     e.preventDefault()
     endCurrentSesh()
@@ -135,6 +136,7 @@ export default function CurrentSesh({ sesh, onInc }: CurrentSeshProps) {
                 height={40}
                 appearance="minimal"
                 iconSize={16}
+                onClick={onDec(prob.grade)}
               />
               <Text marginX={8}>{prob.count}</Text>
               <IconButton

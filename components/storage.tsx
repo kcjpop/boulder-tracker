@@ -77,6 +77,22 @@ export function inc(grade) {
   updateSesh({ ...curr, problems })
 }
 
+export function dec(grade) {
+  const curr = getCurrentSesh()
+  if (curr == null) throw new Error('No current sesh found')
+
+  const problems = curr.problems.map(prob => {
+    if (prob.grade === grade)
+      return {
+        ...prob,
+        count: prob.count - 1 >= 0 ? prob.count - 1 : prob.count,
+      }
+    return prob
+  })
+
+  updateSesh({ ...curr, problems })
+}
+
 export function flush() {
   store(false)
 }
