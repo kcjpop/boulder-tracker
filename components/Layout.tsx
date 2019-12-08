@@ -1,3 +1,4 @@
+import '../styles.css'
 import { Pane } from 'evergreen-ui'
 import Nav from './Nav'
 

@@ -93,6 +93,10 @@ export function dec(grade) {
   updateSesh({ ...curr, problems })
 }
 
+export function getAll() {
+  return store(SESSIONS)
+}
+
 export function flush() {
   store(false)
 }
