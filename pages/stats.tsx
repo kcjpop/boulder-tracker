@@ -1,10 +1,11 @@
-import '../chart.css'
-
+import Head from 'next/head'
 import Chart from 'react-chartist'
 import { Heading, Paragraph } from 'evergreen-ui'
 
 import Layout from '@/Layout'
 import { getAll } from '@/storage'
+
+import '../chart.css'
 
 function prepareData(sessions) {
   const [last, before] = Object.values(sessions)
@@ -66,6 +67,9 @@ export default function Stats() {
 
   return (
     <Layout>
+      <Head>
+        <title>Stats</title>
+      </Head>
       <Heading>Last Sesh</Heading>
       <div className="ct-chart ct-minor-second">
         <Chart type="Bar" data={data} options={options} />

@@ -1,5 +1,6 @@
 import React from 'react'
 import Router from 'next/router'
+import Head from 'next/head'
 import { TextInputField, Button, Pane } from 'evergreen-ui'
 
 import Layout from '@/Layout'
@@ -18,6 +19,9 @@ export default function NewSess() {
 
   return (
     <Layout>
+      <Head>
+        <title>Create a new sesh</title>
+      </Head>
       <Pane
         is="form"
         display="flex"

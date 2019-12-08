@@ -1,4 +1,6 @@
 import React from 'react'
+import Head from 'next/head'
+
 import Layout from '@/Layout'
 import CurrentSesh from '@/CurrentSesh'
 import EmptySesh from '@/EmptySesh'
@@ -21,6 +23,9 @@ function Index() {
 
   return (
     <Layout>
+      <Head>
+        <title>Home</title>
+      </Head>
       {currentSesh != null ? (
         <CurrentSesh sesh={currentSesh} onInc={onInc} onDec={onDec} />
       ) : (
