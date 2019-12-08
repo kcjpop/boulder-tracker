@@ -4,6 +4,9 @@ interface Sesh {
     grade: string
     count: number
   }[]
+  startedAt: Date
+  endedAt: Date
+  duration: number
 }
 
 interface CurrentSeshProps {
@@ -12,6 +15,7 @@ interface CurrentSeshProps {
   onDec: Function
 }
 
+import React from 'react'
 import {
   Icon,
   Pane,
@@ -22,6 +26,7 @@ import {
   Heading,
 } from 'evergreen-ui'
 import Router from 'next/router'
+import differenceInMinutes from 'date-fns/differenceInMinutes'
 
 import { endCurrentSesh, inc } from '@/storage'
 
@@ -83,7 +88,22 @@ const FONT = {
   '9A': '9A',
 }
 
+function calculateDuration({ startedAt }) {
+  return differenceInMinutes(new Date(), new Date(startedAt))
+}
+
 export default function CurrentSesh({ sesh, onInc, onDec }: CurrentSeshProps) {
+  const intervalId = React.useRef<ReturnType<typeof setInterval>>()
+  const [duration, setDuration] = React.useState(calculateDuration(sesh))
+
+  React.useEffect(() => {
+    intervalId.current = setInterval(() => {
+      setDuration(calculateDuration(sesh))
+    }, 60000)
+
+    return () => clearInterval(intervalId.current)
+  })
+
   const doEndSesh = e => {
     e.preventDefault()
     endCurrentSesh()
@@ -115,7 +135,7 @@ export default function CurrentSesh({ sesh, onInc, onDec }: CurrentSeshProps) {
           </Paragraph>
           <Paragraph display="flex" alignItems="center">
             <Icon icon="time" marginRight={8} />
-            20 mins
+            {duration} mins
           </Paragraph>
         </Pane>
 

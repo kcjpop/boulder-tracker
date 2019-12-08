@@ -1,4 +1,5 @@
 import store from 'store2'
+import differenceInMinutes from 'date-fns/differenceInMinutes'
 
 const SESSIONS = 'BT_SESSIONS'
 const CURRENT_SESH = 'BT_CURRENT_SESH'
@@ -61,7 +62,13 @@ export function endCurrentSesh() {
   const curr = getCurrentSesh()
   if (curr == null) throw new Error('No current sesh found')
 
-  updateSesh({ ...curr, endedAt: new Date() })
+  const endedAt = new Date()
+
+  updateSesh({
+    ...curr,
+    endedAt,
+    duration: differenceInMinutes(new Date(curr.startedAt), endedAt),
+  })
   store(CURRENT_SESH, null)
 }
 
