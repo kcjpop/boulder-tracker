@@ -4,7 +4,7 @@ import differenceInMinutes from 'date-fns/differenceInMinutes'
 const SESSIONS = 'BT_SESSIONS'
 const CURRENT_SESH = 'BT_CURRENT_SESH'
 
-export function createSesh({ gymName }) {
+export function createSesh({ gymName, gradeSystemId }) {
   const old = store(SESSIONS)
   const startedAt = new Date()
   const id = startedAt.toISOString()
@@ -38,7 +38,10 @@ export function createSesh({ gymName }) {
     '9A',
   ].map(grade => ({ grade, count: 0 }))
 
-  store(SESSIONS, { ...old, [id]: { id, gymName, startedAt, problems } })
+  store(SESSIONS, {
+    ...old,
+    [id]: { id, gymName, gradeSystemId, startedAt, problems },
+  })
   store(CURRENT_SESH, id)
 }
 

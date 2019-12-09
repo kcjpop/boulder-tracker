@@ -1,5 +1,6 @@
 interface Sesh {
   gymName: string
+  gradeSystemId: string
   problems: {
     grade: string
     count: number
@@ -28,65 +29,8 @@ import {
 import Router from 'next/router'
 import differenceInMinutes from 'date-fns/differenceInMinutes'
 
-import { endCurrentSesh, inc } from '@/storage'
-
-const KIIPEILYAREENA = {
-  '1': 'Gray',
-  '2': 'Gray',
-  '3': 'Gray',
-  '4': 'Yellow',
-  '4+': 'Yellow',
-  '5': 'Green',
-  '5+': 'Green',
-  '6A': 'Orange',
-  '6A+': 'Orange',
-  '6B': 'Blue',
-  '6B+': 'Blue',
-  '6C': 'Red',
-  '6C+': 'Red',
-  '7A': 'Violet',
-  '7A+': 'Violet',
-  '7B': 'Pink',
-  '7B+': 'Pink',
-  '7C': 'Black',
-  '7C+': 'Black',
-  '8A': 'White',
-  '8A+': 'White',
-  '8B': 'White',
-  '8B+': 'White',
-  '8C': 'White',
-  '8C+': 'White',
-  '9A': 'White',
-}
-
-const FONT = {
-  '1': '1',
-  '2': '2',
-  '3': '3',
-  '4': '4',
-  '4+': '4+',
-  '5': '5',
-  '5+': '5+',
-  '6A': '6A',
-  '6A+': '6A+',
-  '6B': '6B',
-  '6B+': '6B+',
-  '6C': '6C',
-  '6C+': '6C+',
-  '7A': '7A',
-  '7A+': '7A+',
-  '7B': '7B',
-  '7B+': '7B+',
-  '7C': '7C',
-  '7C+': '7C+',
-  '8A': '8A',
-  '8A+': '8A+',
-  '8B': '8B',
-  '8B+': '8B+',
-  '8C': '8C',
-  '8C+': '8C+',
-  '9A': '9A',
-}
+import { endCurrentSesh } from '@/storage'
+import { getGradeCounters, getGradeFromId } from '@/grades'
 
 function calculateDuration({ startedAt }) {
   return differenceInMinutes(new Date(), new Date(startedAt))
@@ -109,6 +53,9 @@ export default function CurrentSesh({ sesh, onInc, onDec }: CurrentSeshProps) {
     endCurrentSesh()
     Router.push('/stats')
   }
+
+  const gradeSystem = getGradeFromId(sesh.gradeSystemId)
+  const counters = getGradeCounters(gradeSystem)
 
   return (
     <Pane display="flex" flexDirection="column">
@@ -141,7 +88,7 @@ export default function CurrentSesh({ sesh, onInc, onDec }: CurrentSeshProps) {
 
         <Heading marginBottom={8}>Grades</Heading>
 
-        {sesh.problems.map((prob, i) => (
+        {counters.map((prob, i) => (
           <Pane
             display="flex"
             alignItems="center"
