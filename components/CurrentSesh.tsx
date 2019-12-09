@@ -1,7 +1,7 @@
 interface Sesh {
   gymName: string
   gradeSystemId: string
-  problems: {
+  counts: {
     grade: string
     count: number
   }[]
@@ -105,7 +105,9 @@ export default function CurrentSesh({ sesh, onInc, onDec }: CurrentSeshProps) {
                 iconSize={16}
                 onClick={onDec(prob.grade)}
               />
-              <Text marginX={8}>{prob.count}</Text>
+              <Text marginX={8}>
+                {prob.grade in sesh.counts ? sesh.counts[prob.grade] : 0}
+              </Text>
               <IconButton
                 icon="add"
                 height={40}
