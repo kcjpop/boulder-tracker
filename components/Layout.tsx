@@ -1,12 +1,15 @@
 import '../styles.css'
-import { Pane } from 'evergreen-ui'
 import Nav from './Nav'
+import Head from 'next/head'
 
 export default function Layout({ children }) {
   return (
-    <Pane>
+    <div className="container mx-auto text-gray-700 font-sans">
+      <Head>
+        <script src="https://kit.fontawesome.com/43d24f401c.js"></script>
+      </Head>
       <Nav />
-      {children}
-    </Pane>
+      <div className="p-4">{children}</div>
+    </div>
   )
 }

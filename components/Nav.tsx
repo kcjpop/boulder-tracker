@@ -1,32 +1,23 @@
-import { Icon, Pane, Text, IconName } from 'evergreen-ui'
 import Link from 'next/link'
 
-const NAV: { icon: IconName; text: string; href: string }[] = [
-  { icon: 'crown', text: 'Current Sesh', href: '/' },
-  { icon: 'comparison', text: 'Stats', href: '/stats' },
-  { icon: 'cog', text: 'Settings', href: '/settings' },
+const NAV: { icon: string; text: string; href: string }[] = [
+  { icon: 'fad fa-dumbbell', text: 'Current Sesh', href: '/' },
+  { icon: 'fad fa-analytics', text: 'Stats', href: '/stats' },
+  { icon: 'fad fa-cogs', text: 'Settings', href: '/settings' },
 ]
 export default function Nav() {
   return (
-    <Pane display="flex" width="100%" marginBottom={16}>
+    <div className="flex mb-4 w-full">
       {NAV.map(nav => (
-        <Pane paddingX={4} width={`${100 / NAV.length}%`} key={nav.text}>
+        <div className="w-1/3" key={nav.text}>
           <Link href={nav.href}>
-            <Pane
-              background="yellowTint"
-              borderRadius={8}
-              height={64}
-              display="flex"
-              flexDirection="column"
-              alignItems="center"
-              justifyContent="center"
-              cursor="pointer">
-              <Icon icon={nav.icon} color="muted" size={24} marginBottom={8} />
-              <Text size={300}>{nav.text}</Text>
-            </Pane>
+            <div className="cursor-pointer bg-indigo-600 text-indigo-100 flex flex-col items-center m-2 p-2 rounded">
+              <i className={`${nav.icon} fa-2x mb-2`} />
+              <p className="text-xs">{nav.text}</p>
+            </div>
           </Link>
-        </Pane>
+        </div>
       ))}
-    </Pane>
+    </div>
   )
 }

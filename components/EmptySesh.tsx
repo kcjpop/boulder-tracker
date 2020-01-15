@@ -1,17 +1,14 @@
-import { Pane, Button, Paragraph } from 'evergreen-ui'
 import Link from 'next/link'
 
 export default function EmptySesh() {
   return (
-    <Pane display="flex" flexDirection="column">
-      <Paragraph marginBottom={8} color="muted">
-        No active sesh. Create a new one?
-      </Paragraph>
+    <div>
+      <p className="mb-4">No active sesh. Create a new one?</p>
       <Link href="/new">
-        <Button height={48} justifyContent="center" appearance="primary">
+        <button className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">
           New Sesh
-        </Button>
+        </button>
       </Link>
-    </Pane>
+    </div>
   )
 }

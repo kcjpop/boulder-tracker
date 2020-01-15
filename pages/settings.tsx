@@ -1,7 +1,8 @@
 import Head from 'next/head'
-import { Button, Pane } from 'evergreen-ui'
+import { Pane } from 'evergreen-ui'
 
 import Layout from '@/Layout'
+import Button from '@/Button'
 import { flush } from '@/storage'
 
 export default function Settings() {
@@ -16,12 +17,7 @@ export default function Settings() {
         <title>Settings</title>
       </Head>
       <Pane display="flex" flexDirection="column">
-        <Button
-          height={48}
-          justifyContent="center"
-          intent="danger"
-          appearance="primary"
-          onClick={doClearAll}>
+        <Button variant="red" onClick={doClearAll}>
           Clear All
         </Button>
       </Pane>

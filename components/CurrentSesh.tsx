@@ -17,20 +17,13 @@ interface CurrentSeshProps {
 }
 
 import React from 'react'
-import {
-  Icon,
-  Pane,
-  Button,
-  Text,
-  Paragraph,
-  IconButton,
-  Heading,
-} from 'evergreen-ui'
+import { Icon, Pane, Text, Paragraph, IconButton, Heading } from 'evergreen-ui'
 import Router from 'next/router'
 import differenceInMinutes from 'date-fns/differenceInMinutes'
 
 import { endCurrentSesh } from '@/storage'
 import { getGradeCounters, getGradeFromId } from '@/grades'
+import Button from '@/Button'
 
 function calculateDuration({ startedAt }) {
   return differenceInMinutes(new Date(), new Date(startedAt))
@@ -58,67 +51,47 @@ export default function CurrentSesh({ sesh, onInc, onDec }: CurrentSeshProps) {
   const counters = getGradeCounters(gradeSystem)
 
   return (
-    <Pane display="flex" flexDirection="column">
-      <Pane
-        marginBottom={16}
-        display="flex"
-        alignItems="center"
-        justifyContent="space-between">
-        <Heading size={600}>Current Sesh</Heading>
-        <Button
-          height={48}
-          justifyContent="center"
-          appearance="primary"
-          onClick={doEndSesh}>
-          End Sesh
-        </Button>
-      </Pane>
+    <div className="flex flex-col">
+      <div className="flex items-center justify-between">
+        <h2 className="text-xl">Current Sesh</h2>
+        <Button onClick={doEndSesh}>End Sesh</Button>
+      </div>
 
-      <Pane>
-        <Pane display="flex" justifyContent="space-between" marginBottom={16}>
-          <Paragraph display="flex" alignItems="center">
-            <Icon icon="map-marker" marginRight={8} />
+      <div>
+        <div className="flex items-center mb-4">
+          <p className="flex items-center mr-2">
+            <i className="fad fa-home fa-lg mr-2"></i>
             {sesh.gymName}
-          </Paragraph>
-          <Paragraph display="flex" alignItems="center">
-            <Icon icon="time" marginRight={8} />
+          </p>
+          <p className="flex items-center">
+            <i className="fad fa-alarm-clock fa-lg mr-2"></i>
             {duration} mins
-          </Paragraph>
-        </Pane>
+          </p>
+        </div>
 
-        <Heading marginBottom={8}>Grades</Heading>
+        <h2 className="text-xl">Grades</h2>
 
         {counters.map((prob, i) => (
-          <Pane
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
+          <p
             key={prob.grade}
-            paddingX={16}
-            background={i % 2 ? 'tint2' : 'tint'}>
-            <Text>{prob.grade}</Text>
-            <Pane display="flex" alignItems="center">
-              <IconButton
-                icon="remove"
-                height={40}
-                appearance="minimal"
-                iconSize={16}
-                onClick={onDec(prob.grade)}
-              />
-              <Text marginX={8}>
+            className={`flex items-center ${
+              i % 2 ? 'bg-gray-200' : ''
+            } py-2 px-4`}>
+            <p>{prob.grade}</p>
+            <div className="ml-auto flex">
+              <button onClick={onDec(prob.grade)}>
+                <i className="far fa-minus-circle fa-lg"></i>
+              </button>
+              <p className="bg-pink-500 text-pink-100 mx-2 rounded w-8 h-8 flex items-center justify-center">
                 {prob.grade in sesh.counts ? sesh.counts[prob.grade] : 0}
-              </Text>
-              <IconButton
-                icon="add"
-                height={40}
-                appearance="minimal"
-                iconSize={16}
-                onClick={onInc(prob.grade)}
-              />
-            </Pane>
-          </Pane>
+              </p>
+              <button onClick={onInc(prob.grade)}>
+                <i className="far fa-plus-circle fa-lg"></i>
+              </button>
+            </div>
+          </p>
         ))}
-      </Pane>
-    </Pane>
+      </div>
+    </div>
   )
 }

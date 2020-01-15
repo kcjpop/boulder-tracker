@@ -1,25 +1,25 @@
 import React from 'react'
 import Router from 'next/router'
 import Head from 'next/head'
-import { TextInputField, Button, Pane, SelectMenu } from 'evergreen-ui'
 import { defaultGrades } from '@/grades'
 
 import Layout from '@/Layout'
+import Button from '@/Button'
 import { createSesh } from '@/storage'
 
 export default function NewSess() {
   const [gymName, setGymName] = React.useState('')
-  const [gradeSystem, setGradeSystem] = React.useState()
+  const [gradeSystem, setGradeSystem] = React.useState('Fontainebleau')
 
   const doChangeGymName = e => setGymName(e.target.value)
 
-  const doSelectGradeSystem = el => setGradeSystem(el)
+  const doSelectGradeSystem = e => setGradeSystem(e.target.value)
 
   const doCreateSesh = e => {
     if (gradeSystem == null) return
 
     e.preventDefault()
-    createSesh({ gymName, gradeSystemId: gradeSystem.value })
+    createSesh({ gymName, gradeSystemId: gradeSystem })
     Router.push('/')
   }
 
@@ -28,46 +28,41 @@ export default function NewSess() {
       <Head>
         <title>Create a new sesh</title>
       </Head>
-      <Pane
-        is="form"
-        display="flex"
-        flexDirection="column"
-        onSubmit={doCreateSesh}>
-        <TextInputField
-          required
-          value={gymName}
-          label="Gym name"
-          marginBottom={16}
-          placeholder="E.g. KiipeilyAreena Kalasatama"
-          onChange={doChangeGymName}
-        />
+      <form className="flex flex-col" onSubmit={doCreateSesh}>
+        <fieldset className="flex flex-col mb-4">
+          <label htmlFor="" className="mb-2 text-sm font-bold">
+            Gym Name*
+          </label>
+          <input
+            required
+            type="text"
+            placeholder="E.g. KiipeilyAreena Kalasatama"
+            className="bg-gray-200 p-2 rounded"
+            value={gymName}
+            onChange={doChangeGymName}
+          />
+        </fieldset>
 
-        <Pane marginBottom={16} width="100%">
-          <SelectMenu
-            hasFilter={false}
-            title="Grade system"
-            options={Object.values(defaultGrades).map(({ name, id }) => ({
-              label: name,
-              value: id,
-            }))}
-            onSelect={doSelectGradeSystem}
-            selected={gradeSystem != null ? gradeSystem.id : null}>
-            <Button>
-              {gradeSystem != null
-                ? gradeSystem.label
-                : 'Select the grade system'}
-            </Button>
-          </SelectMenu>
-        </Pane>
+        <fieldset className="flex flex-col mb-4">
+          <fieldset className="mb-2 text-sm font-bold">Grade System*</fieldset>
+          {Object.values(defaultGrades).map(({ name, id }) => (
+            <label className="mb-2" key={name}>
+              <input
+                key={name}
+                type="radio"
+                name="grade"
+                value={id}
+                className="mr-2"
+                checked={gradeSystem != null && gradeSystem === id}
+                onChange={doSelectGradeSystem}
+              />
+              {name}
+            </label>
+          ))}
+        </fieldset>
 
-        <Button
-          type="submit"
-          height={48}
-          justifyContent="center"
-          appearance="primary">
-          Start training
-        </Button>
-      </Pane>
+        <Button>Start training</Button>
+      </form>
     </Layout>
   )
 }
